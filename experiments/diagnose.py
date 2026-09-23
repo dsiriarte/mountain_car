@@ -32,7 +32,7 @@ OUT_DIR = Path("results/diagnosis")
 SEED = 0
 
 # Constructor arguments that give the original, per-step uniform exploration.
-TEXTBOOK_DQN: dict = {}
+TEXTBOOK_DQN: dict = {"explore_repeat": 0.0}
 
 
 def seed_everything(seed: int) -> None:

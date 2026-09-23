@@ -102,6 +102,7 @@ class DQNAgent:
         buffer_capacity: int = 100_000,
         target_update_freq: int = 10,
         hidden: int = 128,
+        explore_repeat: float = 0.9,
     ) -> None:
         self.env_id = env_id
         self.lr = lr
@@ -113,7 +114,10 @@ class DQNAgent:
         self.buffer_capacity = buffer_capacity
         self.target_update_freq = target_update_freq
         self.hidden = hidden
+        self.explore_repeat = explore_repeat
         self.training_episodes = 0
+        # Last exploratory action of the current episode (reset in train()).
+        self._explore_action: int | None = None
 
         env = gym.make(env_id)
         self.state_dim = int(env.observation_space.shape[0])  # type: ignore[index]
@@ -133,27 +137,32 @@ class DQNAgent:
     # ── policy ────────────────────────────────────────────────────────
 
     def select_action(self, state: np.ndarray, *, deterministic: bool = False) -> int:
-        """Textbook epsilon-greedy: explore with probability epsilon.
+        """Epsilon-greedy with sticky exploratory actions.
 
-        EXERCISE 3: this is the standard, by-the-book implementation, and it is
-        not enough. Once EXERCISE 2 is done, `train dqn` will run happily and
-        report a completely flat score, forever, having learned nothing.
+        EXERCISE 3: textbook epsilon-greedy draws a fresh uniform action at
+        every exploratory step. Consecutive pushes are then independent, they
+        cancel out, and the car jitters in the valley: 0/300 random episodes
+        reach the flag, so the network only ever sees -1 rewards and learns
+        that all actions are worth the same (see experiments/diagnose.py).
 
-        Your job is to work out WHY and fix it. The bug is not in this method's
-        code -- it is correct epsilon-greedy. It is in what this exploration
-        strategy can actually reach in this particular environment.
+        The fix makes exploration temporally correlated: when exploring, the
+        previous exploratory action is repeated with probability
+        `explore_repeat`, and a new uniform action is drawn otherwise. Runs
+        then last 1 / (1 - explore_repeat) steps on average (10 for 0.9),
+        long enough to rock the car and sometimes reach the flag.
+        `explore_repeat=0` gives back textbook epsilon-greedy.
 
-        Starting clue: the car is too weak to drive straight up the hill, so it
-        has to rock back and forth in sustained runs to build momentum. Every
-        call below draws a completely fresh random action. Can a policy built
-        from independent per-step coin flips produce a sustained run?
-
-        EXERCISES.md has the full investigation and a ladder of further clues,
-        from gentle to nearly-the-answer -- take only as many as you need. Try
-        to diagnose it from your own measurements first.
+        With `deterministic=True` this is pure greedy: exploration belongs to
+        training only.
         """
         if not deterministic and random.random() < self.epsilon:
-            return random.randrange(self.action_dim)
+            if (
+                self._explore_action is None
+                or self.explore_repeat == 0.0
+                or random.random() >= self.explore_repeat
+            ):
+                self._explore_action = random.randrange(self.action_dim)
+            return self._explore_action
         with torch.no_grad():
             t = torch.as_tensor(state, dtype=torch.float32, device=self.device).unsqueeze(0)
             return int(self.q_net(t).argmax(dim=1).item())
@@ -231,6 +240,7 @@ class DQNAgent:
             obs, _ = env.reset(seed=seed if episode == 1 else None)
             total_reward = 0.0
             done = False
+            self._explore_action = None  # exploratory runs never span episodes
 
             while not done:
                 action = self.select_action(obs)
@@ -277,6 +287,7 @@ class DQNAgent:
         "buffer_capacity",
         "target_update_freq",
         "hidden",
+        "explore_repeat",
     )
 
     def save(self, path: Path) -> None:
@@ -315,5 +326,6 @@ class DQNAgent:
             f"  LR / Gamma        : {self.lr} / {self.gamma}\n"
             f"  Batch size        : {self.batch_size}\n"
             f"  Target update     : every {self.target_update_freq} episodes\n"
+            f"  Explore repeat    : {self.explore_repeat}\n"
             f"  Device            : {self.device}"
         )
