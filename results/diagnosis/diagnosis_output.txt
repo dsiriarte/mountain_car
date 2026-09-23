@@ -1,0 +1,19 @@
+1. Exploration reach (300 random episodes each)
+  repeat p=0.0   -> reached the flag in 0/300 episodes
+  repeat p=0.5   -> reached the flag in 0/300 episodes
+  repeat p=0.8   -> reached the flag in 5/300 episodes
+  repeat p=0.9   -> reached the flag in 14/300 episodes
+  repeat p=0.95  -> reached the flag in 26/300 episodes
+  repeat p=0.98  -> reached the flag in 22/300 episodes
+
+2. Textbook DQN (plain epsilon-greedy)
+    250 episodes | mean Q   -22.20 | spread 0.0149
+    750 episodes | mean Q   -52.94 | spread 0.0127
+   1500 episodes | mean Q   -77.64 | spread 0.0176
+  flags reached during 1500 training episodes: 0
+
+3. Tabular Q-Learning: optimistic vs pessimistic initial values (5000 episodes)
+  Q init    0.0: first flag at episode 1903, 1189/5000 flags
+  Q init -100.0: first flag at episode None, 0/5000 flags
+
+Saved results/diagnosis/diagnosis.json

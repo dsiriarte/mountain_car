@@ -1,0 +1,41 @@
+{
+  "exploration_reach_of_300": {
+    "0.0": 0,
+    "0.5": 0,
+    "0.8": 5,
+    "0.9": 14,
+    "0.95": 26,
+    "0.98": 22
+  },
+  "textbook_dqn": {
+    "q_table": [
+      {
+        "episodes": 250,
+        "mean_q": -22.19832992553711,
+        "spread": 0.014884395524859428
+      },
+      {
+        "episodes": 750,
+        "mean_q": -52.943443298339844,
+        "spread": 0.012743187136948109
+      },
+      {
+        "episodes": 1500,
+        "mean_q": -77.63931274414062,
+        "spread": 0.01764633134007454
+      }
+    ],
+    "training_episodes": 1500,
+    "flags_reached": 0
+  },
+  "tabular_optimism": {
+    "zeros": {
+      "first_flag_episode": 1903,
+      "flags_reached": 1189
+    },
+    "minus_100": {
+      "first_flag_episode": null,
+      "flags_reached": 0
+    }
+  }
+}
