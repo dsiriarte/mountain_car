@@ -1,0 +1,24 @@
+{
+  "agent": "qlearning",
+  "tag": "qlearning",
+  "seed": 7,
+  "hyperparameters": {
+    "n_bins": 20,
+    "lr": 0.1,
+    "gamma": 0.99,
+    "epsilon_end": 0.01,
+    "epsilon_decay": 0.9995
+  },
+  "train_episodes": 20000,
+  "train_env_steps": 3194457,
+  "train_minutes": 1.37,
+  "first_flag_episode": 1536,
+  "train_flags_reached": 15325,
+  "train_last100_mean": -160.69,
+  "eval_episodes": 100,
+  "eval_mean": -182.01,
+  "eval_std": 12.88293056722732,
+  "eval_best": -148.0,
+  "eval_worst": -200.0,
+  "eval_flags_reached": 82
+}

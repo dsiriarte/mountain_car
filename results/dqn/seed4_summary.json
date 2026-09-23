@@ -1,0 +1,28 @@
+{
+  "agent": "dqn",
+  "tag": "dqn",
+  "seed": 4,
+  "hyperparameters": {
+    "lr": 0.001,
+    "gamma": 0.99,
+    "epsilon_end": 0.01,
+    "epsilon_decay": 0.995,
+    "batch_size": 64,
+    "buffer_capacity": 100000,
+    "target_update_freq": 10,
+    "hidden": 128,
+    "explore_repeat": 0.9
+  },
+  "train_episodes": 2500,
+  "train_env_steps": 345876,
+  "train_minutes": 4.43,
+  "first_flag_episode": 1,
+  "train_flags_reached": 1865,
+  "train_last100_mean": -115.02,
+  "eval_episodes": 100,
+  "eval_mean": -104.73,
+  "eval_std": 7.496472503784696,
+  "eval_best": -84.0,
+  "eval_worst": -114.0,
+  "eval_flags_reached": 100
+}

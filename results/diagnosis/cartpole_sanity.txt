@@ -1,0 +1,11 @@
+# Paso 1 del Ejercicio 3: el mismo DQNAgent aprende en CartPole-v1 (sin semilla fija)
+# Comando: uv run python -c "from mountain_car.agents.dqn import DQNAgent; DQNAgent('CartPole-v1', epsilon_decay=0.98).train(total_episodes=200, log_interval=25)"
+# Ejecutado con el código del Ejercicio 2 (epsilon-greedy de libro).
+Episode 25/200 | Avg Reward: 20.08 | Epsilon: 0.6035 | Buffer: 502
+Episode 50/200 | Avg Reward: 23.76 | Epsilon: 0.3642 | Buffer: 1096
+Episode 75/200 | Avg Reward: 125.64 | Epsilon: 0.2198 | Buffer: 4237
+Episode 100/200 | Avg Reward: 225.40 | Epsilon: 0.1326 | Buffer: 9872
+Episode 125/200 | Avg Reward: 177.52 | Epsilon: 0.0800 | Buffer: 14310
+Episode 150/200 | Avg Reward: 131.48 | Epsilon: 0.0483 | Buffer: 17597
+Episode 175/200 | Avg Reward: 118.96 | Epsilon: 0.0291 | Buffer: 20571
+Episode 200/200 | Avg Reward: 149.12 | Epsilon: 0.0176 | Buffer: 24299

@@ -1,0 +1,25 @@
+$ uv run mountaincar load qlearning --eval   # results/qlearning/seed6.pkl copiado a saves/
+Q-Learning agent for MountainCar-v0
+  Episodes trained : 20000
+  States visited   : 297 / 400
+  Epsilon          : 0.0100
+  LR / Gamma       : 0.1 / 0.99
+
+Evaluating (10 episodes) ...
+  Mean reward: -126.70 +/- 14.74
+  Reached the flag: 10/10 episodes
+
+$ uv run mountaincar load dqn --eval   # results/dqn/seed6.pt copiado a saves/
+DQN agent for MountainCar-v0
+  Episodes trained  : 2500
+  Network params    : 17,283
+  Epsilon           : 0.0100
+  LR / Gamma        : 0.001 / 0.99
+  Batch size        : 64
+  Target update     : every 10 episodes
+  Explore repeat    : 0.9
+  Device            : cpu
+
+Evaluating (10 episodes) ...
+  Mean reward: -100.40 +/- 8.53
+  Reached the flag: 10/10 episodes
