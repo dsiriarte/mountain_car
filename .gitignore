@@ -212,3 +212,7 @@ __marimo__/
 
 # Reference solutions - kept on disk for the instructor, never committed
 solutions/
+
+# Modelos de las corridas de ajuste (solo se versionan sus resúmenes)
+results/tuning/**/*.pt
+results/tuning/**/*.pkl
