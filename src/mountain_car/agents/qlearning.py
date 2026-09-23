@@ -108,12 +108,17 @@ class QLearningAgent:
         target = reward if terminated else reward + self.gamma * np.max(self.q_table[next_state])
         self.q_table[state][action] += self.lr * (target - self.q_table[state][action])
 
-    def train(self, total_episodes: int = 10_000, log_interval: int = 100) -> list[float]:
+    def train(
+        self, total_episodes: int = 10_000, log_interval: int = 100, seed: int | None = None
+    ) -> list[float]:
+        """Train for `total_episodes`. `seed` only seeds the first env.reset(), so
+        the sequence of start states is reproducible; the agent's own random
+        numbers come from the global generators, seeded by the caller."""
         env = gym.make(self.env_id)
         rewards_history: list[float] = []
 
         for episode in range(1, total_episodes + 1):
-            obs, _ = env.reset()
+            obs, _ = env.reset(seed=seed if episode == 1 else None)
             state = self.discretize(obs)
             total_reward = 0.0
             done = False

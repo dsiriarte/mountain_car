@@ -218,12 +218,17 @@ class DQNAgent:
 
     # ── training loop ─────────────────────────────────────────────────
 
-    def train(self, total_episodes: int = 500, log_interval: int = 10) -> list[float]:
+    def train(
+        self, total_episodes: int = 500, log_interval: int = 10, seed: int | None = None
+    ) -> list[float]:
+        """Train for `total_episodes`. `seed` only seeds the first env.reset(), so
+        the sequence of start states is reproducible; the agent's own random
+        numbers come from the global generators, seeded by the caller."""
         env = gym.make(self.env_id)
         rewards_history: list[float] = []
 
         for episode in range(1, total_episodes + 1):
-            obs, _ = env.reset()
+            obs, _ = env.reset(seed=seed if episode == 1 else None)
             total_reward = 0.0
             done = False
 
